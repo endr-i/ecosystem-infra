@@ -15,6 +15,18 @@ down:
 
 restart: down up
 
+dev:
+	@test -f .env || cp .env.example .env
+	$(COMPOSE) -f compose.dev.yml up -d --wait
+	@$(MAKE) --no-print-directory databases
+	@echo "Dev stack is up. Network: ecosystem"
+
+devdown:
+	$(COMPOSE) -f compose.dev.yml down
+
+devreset:
+	$(COMPOSE) -f compose.dev.yml down -v
+
 logs:
 	$(COMPOSE) logs -f
 
